@@ -5,6 +5,14 @@
 {{ $gh_subdir := ($.Param "github_subdir") -}}
 {{ $gh_project_repo := ($.Param "github_project_repo") -}}
 {{ $gh_branch := (default "main" ($.Param "github_branch")) -}}
+
+<p>{{ printf "pathFormatted = %s" $pathFormatted -}}</p>
+<p>{{ printf "gh_repo = %s" $gh_repo -}}</p>
+<p>{{ printf "gh_url = %s" $gh_url -}}</p>
+<p>{{ printf "gh_subdir = %s" $gh_subdir -}}</p>
+<p>{{ printf "gh_project_repo = %s" $gh_project_repo -}}</p>
+<p>{{ printf "gh_branch = %s" $gh_branch -}}</p>
+
 <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
 {{ if $gh_url -}}
   {{ warnf "Warning: use of `github_url` is deprecated. For details see https://www.docsy.dev/docs/adding-content/repository-links/#github_url-optional" -}}
@@ -13,11 +21,16 @@
   {{ $gh_repo_path := printf "%s/content/%s" $gh_branch $pathFormatted -}}
   {{ if and ($gh_subdir) (.Site.Language.Lang) -}}
     {{ $gh_repo_path = printf "%s/%s/content/%s/%s" $gh_branch $gh_subdir ($.Site.Language.Lang) $pathFormatted -}}
+    <p>{{ printf "1" }} </p>
   {{ else if .Site.Language.Lang -}}
     {{ $gh_repo_path = printf "%s/content/%s/%s" $gh_branch ($.Site.Language.Lang) $pathFormatted -}}
+    <p>{{ printf "2" }} </p>
   {{ else if $gh_subdir -}}
     {{ $gh_repo_path = printf "%s/%s/content/%s" $gh_branch $gh_subdir $pathFormatted -}}
+    <p>{{ printf "3" }} </p>
   {{ end -}}
+
+  <p>{{ printf "gh_repo_path = %s" $gh_repo_path -}}</p>
 
   {{/* Adjust $gh_repo_path based on path_base_for_github_subdir */ -}}
   {{ $ghs_base := $.Param "path_base_for_github_subdir" -}}
